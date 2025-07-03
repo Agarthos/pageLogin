@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <title>Login</title>
+  <link rel="stylesheet" href="style_login.css">
+</head>
+<body>
+
+  <img src="https://static.vecteezy.com/system/resources/previews/036/073/326/non_2x/ai-generated-traditional-japanese-style-simple-line-waves-background-photo.jpg" alt="Imagem de fundo" class="background-img" style="opacity: 0.75">
+  
+  
+  <div class="container">
+    <h2>Login</h2>
+    <form id="formLogin">
+      <input type="email" id="email" placeholder="Email" required>
+      <input type="password" id="senha" placeholder="Senha" required>
+      <button type="submit">Entrar</button>
+    </form>
+    <a href="../index.html"><b>Voltar para o Cadrastro</b></a>
+    <p id="mensagem" style="color: red;"></p>
+  </div>
+  
+
+  <script>
+    document.getElementById('formLogin').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const dados = {
+        email: document.getElementById('email').value,
+        senha: document.getElementById('senha').value
+      };
+
+      fetch('http://localhost:5000/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(dados)
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.sucesso) {
+          alert("Login bem-sucedido!");
+          // redirecionar para outra página, se quiser
+        } else {
+          document.getElementById('mensagem').textContent = data.mensagem;
+        }
+      })
+      .catch(() => {
+        document.getElementById('mensagem').textContent = "Erro na conexão com o servidor.";
+      });
+    });
+  </script>
+</body>
+</html>
